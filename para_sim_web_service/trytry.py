@@ -13,23 +13,27 @@ define("port", default=9999, help="run on the given port", type=int)
 define("host", default="127.0.0.1", help="run on the given host", type=str)
 
 class GistHandler(tornado.web.RequestHandler):
-    def get(self):
-        result=[]
+    def post(self):
         a = Gist().get_gist(codecs.open('/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/01.txt', 'r', 'utf-8').read())
-        # self.write(a)
+        gist_source = self.get_argument("gist_source", None)
+        error = {}
+        if not gist_source:
+            error["rc"] = 404
+            error["msg"] = "need gist_source"
+            self.write(json.dumps(error))
+            return
         gist_dict = {}
-        gist_dict["gist"] = a
-        gist_dict["content"] = '/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/01.txt'
+        gist_dict["gist"] = Gist().get_gist(codecs.open(gist_source, 'r', 'utf-8').read())
+        gist_dict["gist_source"] = gist_source
         if a:
             gist_dict["error code"] = 0
         else:
             gist_dict["error code"] = 1
 
-        result.append(gist_dict)
-        print result
+        print gist_dict
 
         self.set_header("Content-Type", "Application/json")
-        self.write(json.dumps(result))
+        self.write(json.dumps(gist_dict))
 
 
 
