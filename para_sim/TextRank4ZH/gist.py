@@ -77,12 +77,34 @@ def cal_sim(textList):
     index = similarities.MatrixSimilarity(lsi[corpus]) # transform corpus to LSI space and index it
     index.save('/Users/Gavin/work/news_baijia_AI/para_sim/gist.index')
     index = similarities.MatrixSimilarity.load('/Users/Gavin/work/news_baijia_AI/para_sim/gist.index')
+    sims_list =[]
     for x in range(len(textList)):
         vec_lsi = lsi[corpus[x]]
         sims = index[vec_lsi]
-        sims_list =[]
         sims_list.append(list(enumerate(sims)))
-    return sims_list
+    r = {}
+    w = []
+    for sl in sims_list:
+        for v,k in sl:
+            r[v] = k
+        w.append(r)
+    dl = [dict(t) for t in sims_list]
+    # for m in dl:
+    #     if min()
+    mdl = []
+    # min_val = min(u.iteritems())
+    # min_val_d = {k:v for k, v in u.iteritems() if v == min_val}
+
+    for x in dl:
+        min_v = min(x.itervalues())
+        mdlo = {k:v for k,v in x.iteritems() if v == min_v}
+        # mdl.append(min_v)
+        mdl.append(mdlo)
+    smdl = sorted(mdl, key = lambda k:k)
+    # fr = sorted(dl)
+
+    print smdl
+    print sims_list
 
     # vec_lsi = lsi[corpus[0]]
     # sims = index[vec_lsi]
@@ -104,7 +126,7 @@ def cal_sim(textList):
 if __name__ == "__main__":
     a = Gist().get_gist(codecs.open('/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/01.txt', 'r', 'utf-8').read())
     b = Gist().get_gist(codecs.open('/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/02.txt', 'r', 'utf-8').read())
-    c = Gist().get_gist(codecs.open('/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/03.txt', 'r', 'utf-8').read())
+    c = Gist().get_gist(codecs.open('/Users/Gavin/work/news_baijia_AI/para_sim/TextRank4ZH/text/05.txt', 'r', 'utf-8').read())
 
     ag = list(jieba.cut(a))
     bg = list(jieba.cut(b))
