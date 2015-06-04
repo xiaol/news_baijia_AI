@@ -50,12 +50,9 @@ class Gist:
 def cal_sim(query, textList):
 
     textList = [list(jieba.cut(text)) for text in textList]
-    print jieba.cut(query)
+
     dictionary = corpora.Dictionary(textList)
     corpus = [dictionary.doc2bow(text) for text in textList]
-    corpora.MmCorpus.serialize('gist.mm', corpus)
-    corpus = corpora.MmCorpus('gist.mm')
-    print corpus
     lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=2) # initialize an LSI transformation
     query_bow = dictionary.doc2bow(jieba.cut(query))
     query_lsi = lsi[query_bow]
