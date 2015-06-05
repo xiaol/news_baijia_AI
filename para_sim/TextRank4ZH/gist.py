@@ -47,6 +47,7 @@ class Gist:
             return self.gresult
 
 #query is a string, textList is a list of strings.
+#If a query only compares itself against itself or only one another document, the result is always 1.
 def cal_sim(query, textList):
 
     textList = [list(jieba.cut(text)) for text in textList]
@@ -68,11 +69,12 @@ if __name__ == "__main__":
 
     x = '上个周末，吉林农业科技学院经济管理学院赵同学，本来是因为得到了一张长春市的演出邀请券，从吉林市到长春市玩，不想在重庆路逛街的途中竟看到了一个正在行窃的小偷，并用手机拍下了小偷行窃的全过程。 '
     y = '这小偷还挺有职业道德，只偷钱，又把钱包放回去了，钱包里都是各种卡啊身份证啥的，补办起来很麻烦，很体贴的小偷，赞一个。'
-
+    z = '这小偷还挺有职业道德，只偷钱，又把钱包放回去了，钱包里都是各种卡啊身份证啥的，补办起来很麻烦。'
     textList = []
     textList.append(x)
+    textList.append(x)
     textList.append(y)
-    # textList.append(c)
+    textList.append(z)
     cal_sim(x, textList)
 
 
