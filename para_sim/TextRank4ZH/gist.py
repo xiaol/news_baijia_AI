@@ -55,7 +55,9 @@ def cal_sim(query, textList):
     dictionary = corpora.Dictionary(textList)
     corpus = [dictionary.doc2bow(text) for text in textList]
     lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=2) # initialize an LSI transformation
-    query_bow = dictionary.doc2bow(jieba.cut(query))
+    query_bow = dictionary.doc2bow(list(jieba.cut(query)))
+
+
     query_lsi = lsi[query_bow]
     index = similarities.MatrixSimilarity(lsi[corpus]) # transform corpus to LSI space and index it
     sims = index[query_lsi]
