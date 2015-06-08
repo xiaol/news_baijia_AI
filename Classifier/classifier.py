@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Created on May 08, 2015
+@author: Gavin
+"""
+
 import warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 from math import sqrt
@@ -22,13 +27,6 @@ def doc_classify(training_data, data_to_classify):
     docs = {}
     docs.update(training_data)
     docs.update(data_to_classify)
-    # corpus_dir = 'corpus'
-    # for filename in os.listdir(corpus_dir):
-    #
-    #     path = os.path.join(corpus_dir, filename)
-    #     doc = open(path).read().strip().lower()
-    #     docs[filename] = doc
-    # print docs
     names = docs.keys()
 
     preprocessed_docs = {}
@@ -109,13 +107,10 @@ def doc_classify(training_data, data_to_classify):
         match = names[match]
         print name, "is most similar to...", match
 
-    #We add classes to the mix by labelling dog1.txt and sandwich1.txt
-    #We use these as our training set, and test on all documents.
     print "\n---Classification---"
 
     train = [unit_vecs[key] for key in training_data.keys()]
-    # The label '1' represents the 'dog' category
-    # The label '2' represents the 'sandwich' category
+
 
     labels = [(num+1) for num in range(len(training_data.keys()))]
     label_to_name = dict(zip(labels, training_data.keys()))
